@@ -1,0 +1,82 @@
+import {
+  createUIMessageStream,
+  createUIMessageStreamResponse,
+  streamText,
+} from "ai";
+import { groq } from "@ai-sdk/groq";
+import { retrieve } from "@/lib/retrieve";
+import { SYSTEM_PROMPT, buildContext, type Source } from "@/lib/rag";
+import type { ChatMessage, SourceInfo } from "@/lib/types";
+
+export const runtime = "nodejs";
+export const maxDuration = 60;
+
+const MIN_SCORE = 0.1;
+const NOT_FOUND = "I couldn't find that in the uploaded documents.";
+const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+export async function POST(req: Request) {
+  const { messages, documentId } = (await req.json()) as {
+    messages: ChatMessage[];
+    documentId?: string;
+  };
+
+  const lastUser = [...messages].reverse().find((m) => m.role === "user");
+  let question = "";
+  for (const p of lastUser?.parts ?? []) {
+    if (p.type === "text") question += p.text;
+  }
+  question = question.trim();
+
+  if (!question) {
+    return Response.json({ error: "Empty question." }, { status: 400 });
+  }
+  if (question.length > 1000) {
+    return Response.json({ error: "Question too long (1000 characters max)." }, { status: 400 });
+  }
+  if (documentId && !UUID.test(documentId)) {
+    return Response.json({ error: "Invalid document." }, { status: 400 });
+  }
+
+  let rows: Source[];
+  try {
+    rows = (await retrieve(question, 8, documentId || undefined)) as unknown as Source[];
+  } catch (err) {
+    console.error(err);
+    return Response.json({ error: "Search failed." }, { status: 500 });
+  }
+
+  const sources: SourceInfo[] = rows.map((r) => ({
+    id: r.id,
+    filename: r.filename,
+    page: r.page_number,
+    score: Number(r.score),
+    content: r.content,
+  }));
+  const relevant = rows.length > 0 && Number(rows[0].score) >= MIN_SCORE;
+
+  const stream = createUIMessageStream<ChatMessage>({
+    execute: ({ writer }) => {
+      if (!relevant) {
+        // Nothing relevant found: answer instantly, no LLM call.
+        writer.write({ type: "text-start", id: "not-found" });
+        writer.write({ type: "text-delta", id: "not-found", delta: NOT_FOUND });
+        writer.write({ type: "text-end", id: "not-found" });
+        return;
+      }
+
+      writer.write({ type: "data-sources", data: sources });
+
+      const result = streamText({
+        model: groq(process.env.GROQ_MODEL ?? "openai/gpt-oss-120b"),
+        system: SYSTEM_PROMPT,
+        prompt: `Sources:\n${buildContext(rows)}\n\nQuestion: ${question}`,
+      });
+
+      writer.merge(result.toUIMessageStream());
+    },
+    onError: () => "Something went wrong while generating the answer.",
+  });
+
+  return createUIMessageStreamResponse({ stream });
+}
