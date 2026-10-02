@@ -22,9 +22,9 @@ export async function ingestPdf(data: Uint8Array, filename: string) {
     await sql.begin(async (tx) => {
       for (let i = 0; i < chunks.length; i++) {
         await tx`
-          insert into chunks (document_id, content, page_number, chunk_index, embedding)
+          insert into chunks (document_id, content, page_number, page_end, chunk_index, embedding)
           values (
-            ${doc.id}, ${chunks[i].content}, ${chunks[i].pageNumber},
+            ${doc.id}, ${chunks[i].content}, ${chunks[i].pageNumber}, ${chunks[i].pageEnd},
             ${chunks[i].chunkIndex}, ${JSON.stringify(vectors[i])}::vector
           )
         `;
