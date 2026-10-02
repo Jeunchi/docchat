@@ -2,9 +2,10 @@
 
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Message } from "@/components/Message";
 import { SourcePanel } from "@/components/SourcePanel";
+import { UploadButton } from "@/components/UploadButton";
 import type { ChatMessage, SourceInfo } from "@/lib/types";
 
 type Doc = { id: string; filename: string; status: string };
@@ -22,12 +23,15 @@ export default function Home() {
   const { messages, sendMessage, status, stop, error } = useChat<ChatMessage>({ transport });
   const busy = status === "submitted" || status === "streaming";
 
-  useEffect(() => {
-    fetch("/api/documents")
-      .then((r) => r.json())
-      .then((d: Doc[]) => setDocs(d.filter((x) => x.status === "ready")))
-      .catch(() => {});
+  const loadDocs = useCallback(async () => {
+    const res = await fetch("/api/documents");
+    const all: Doc[] = await res.json();
+    setDocs(all.filter((d) => d.status === "ready"));
   }, []);
+
+  useEffect(() => {
+    loadDocs().catch(() => {});
+  }, [loadDocs]);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ block: "end" });
@@ -44,8 +48,14 @@ export default function Home() {
   return (
     <div className="relative flex h-dvh bg-white text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100">
       <main className="flex min-w-0 flex-1 flex-col">
-        <header className="flex items-center gap-3 border-b border-zinc-200 px-4 py-3 dark:border-zinc-800">
+        <header className="flex flex-wrap items-center gap-x-4 gap-y-2 border-b border-zinc-200 px-4 py-3 dark:border-zinc-800">
           <h1 className="text-lg font-semibold">DocChat</h1>
+          <UploadButton
+            onUploaded={async (id) => {
+              await loadDocs();
+              setDocumentId(id);
+            }}
+          />
           <label className="ml-auto flex items-center gap-2 text-sm">
             <span className="text-zinc-500">Document</span>
             <select
@@ -71,7 +81,9 @@ export default function Home() {
         >
           {messages.length === 0 && (
             <p className="text-center text-zinc-500">
-              Pick a document and ask a question. Answers cite their sources.
+              {docs.length === 0
+                ? "Upload a PDF to get started."
+                : "Pick a document and ask a question. Answers cite their sources."}
             </p>
           )}
           {messages.map((m) => (
