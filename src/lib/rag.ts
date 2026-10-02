@@ -23,9 +23,12 @@ export function buildContext(sources: Source[]) {
     .join("\n\n");
 }
 
-// Models sometimes emit full-width brackets (【1】). Normalize to [1].
+// Models sometimes emit 【2】 or 【2†L1-L9】. Normalize all of them to [2].
 export function normalizeCitations(text: string) {
-  return text.replace(/【(\d+)】/g, "[$1]");
+  return text
+    .replace(/【(\d+)(?:†[^】]*)?】/g, "[$1]") // 【2†L1-L9】 and 【2】 -> [2]
+    .replace(/【[^】]*$/, "") // hide a half-streamed 【2†L1… until it closes
+    .replace(/(\[(\d+)\])(?:\s*\[\2\])+/g, "$1"); // [2][2] -> [2]
 }
 export function pageLabel(start: number, end?: number | null) {
   return end && end !== start ? `pp.${start}-${end}` : `p.${start}`;

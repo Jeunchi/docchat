@@ -17,6 +17,8 @@ export default function Home() {
   const [documentId, setDocumentId] = useState("");
   const [input, setInput] = useState("");
   const [active, setActive] = useState<SourceInfo | null>(null);
+  const [confirmingDelete, setConfirmingDelete] = useState(false);
+  const [deleteError, setDeleteError] = useState("");
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
 
@@ -45,6 +47,24 @@ export default function Home() {
     setInput("");
   }
 
+  async function deleteDoc() {
+    setDeleteError("");
+    try {
+      const res = await fetch(`/api/documents/${documentId}`, { method: "DELETE" });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error ?? "Delete failed.");
+      }
+      setDocumentId("");
+      setActive(null);
+      await loadDocs();
+    } catch (err) {
+      setDeleteError(err instanceof Error ? err.message : "Delete failed.");
+    } finally {
+      setConfirmingDelete(false);
+    }
+  }
+
   return (
     <div className="relative flex h-dvh bg-white text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100">
       <main className="flex min-w-0 flex-1 flex-col">
@@ -54,23 +74,70 @@ export default function Home() {
             onUploaded={async (id) => {
               await loadDocs();
               setDocumentId(id);
+              setConfirmingDelete(false);
             }}
           />
-          <label className="ml-auto flex items-center gap-2 text-sm">
-            <span className="text-zinc-500">Document</span>
-            <select
-              value={documentId}
-              onChange={(e) => setDocumentId(e.target.value)}
-              className="max-w-48 rounded border border-zinc-300 bg-transparent px-2 py-1 dark:border-zinc-700"
-            >
-              <option value="">All documents</option>
-              {docs.map((d) => (
-                <option key={d.id} value={d.id} className="text-black">
-                  {d.filename}
-                </option>
+
+          <div className="ml-auto flex items-center gap-2 text-sm">
+            <label className="flex items-center gap-2">
+              <span className="text-zinc-500">Document</span>
+              <select
+                value={documentId}
+                onChange={(e) => {
+                  setDocumentId(e.target.value);
+                  setConfirmingDelete(false);
+                  setDeleteError("");
+                }}
+                className="max-w-48 rounded border border-zinc-300 bg-transparent px-2 py-1 dark:border-zinc-700"
+              >
+                <option value="">All documents</option>
+                {docs.map((d) => (
+                  <option key={d.id} value={d.id} className="text-black">
+                    {d.filename}
+                  </option>
+                ))}
+              </select>
+            </label>
+
+            {documentId &&
+              (confirmingDelete ? (
+                <span
+                  className="flex items-center gap-2"
+                  onKeyDown={(e) => e.key === "Escape" && setConfirmingDelete(false)}
+                >
+                  <button
+                    type="button"
+                    autoFocus
+                    onClick={deleteDoc}
+                    className="rounded bg-red-600 px-3 py-1 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-red-400"
+                  >
+                    Confirm delete
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setConfirmingDelete(false)}
+                    className="rounded border border-zinc-300 px-3 py-1 dark:border-zinc-700"
+                  >
+                    Cancel
+                  </button>
+                </span>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => setConfirmingDelete(true)}
+                  aria-label="Delete selected document"
+                  className="rounded border border-zinc-300 px-3 py-1 hover:bg-zinc-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-600 dark:border-zinc-700 dark:hover:bg-zinc-800"
+                >
+                  Delete
+                </button>
               ))}
-            </select>
-          </label>
+          </div>
+
+          {deleteError && (
+            <p role="alert" className="w-full text-sm text-red-600">
+              {deleteError}
+            </p>
+          )}
         </header>
 
         <div

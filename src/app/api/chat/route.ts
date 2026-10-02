@@ -12,7 +12,7 @@ import type { ChatMessage, SourceInfo } from "@/lib/types";
 export const runtime = "nodejs";
 export const maxDuration = 60;
 
-const MIN_SCORE = 0.1;
+const MIN_SCORE = -1; // cosine similarity is never below -1, so the gate never blocks a search
 const NOT_FOUND = "I couldn't find that in the uploaded documents.";
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
@@ -51,6 +51,9 @@ export async function POST(req: Request) {
   } catch (err) {
     console.error(err);
     return Response.json({ error: "Search failed." }, { status: 500 });
+  }
+    if (process.env.NODE_ENV !== "production") {
+    console.log("[chat] top score:", rows[0] ? Number(rows[0].score).toFixed(3) : "none");
   }
 
   const sources: SourceInfo[] = rows.map((r) => ({
