@@ -4,6 +4,7 @@ export type Source = {
   page_number: number;
   filename: string;
   score: number;
+  page_end: number | null;
 };
 
 export const SYSTEM_PROMPT = `You answer questions using ONLY the numbered sources provided.
@@ -25,4 +26,7 @@ export function buildContext(sources: Source[]) {
 // Models sometimes emit full-width brackets (【1】). Normalize to [1].
 export function normalizeCitations(text: string) {
   return text.replace(/【(\d+)】/g, "[$1]");
+}
+export function pageLabel(start: number, end?: number | null) {
+  return end && end !== start ? `pp.${start}-${end}` : `p.${start}`;
 }

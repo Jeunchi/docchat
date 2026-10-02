@@ -2,6 +2,7 @@ export type Chunk = {
   content: string;
   pageNumber: number;
   chunkIndex: number;
+  pageEnd: number;
 };
 
 // Chunks the whole document as one word stream so lists and sections that
