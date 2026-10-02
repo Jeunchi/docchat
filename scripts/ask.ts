@@ -5,11 +5,31 @@ import { retrieve } from "../src/lib/retrieve";
 import { SYSTEM_PROMPT, buildContext, type Source } from "../src/lib/rag";
 import { sql } from "../src/lib/db";
 
-async function main() {
-  const question = process.argv.slice(2).join(" ");
-  if (!question) throw new Error('Usage: npx tsx scripts/ask.ts "your question"');
+const MIN_SCORE = 0.1;
 
-  const sources = (await retrieve(question, 5)) as unknown as Source[];
+async function main() {
+  const args = process.argv.slice(2);
+  const docArg = args.find((a) => a.startsWith("--doc="));
+  const docId = docArg?.slice("--doc=".length);
+  const debug = args.includes("--debug");
+  const question = args.filter((a) => !a.startsWith("--")).join(" ");
+
+  if (!question) {
+    throw new Error('Usage: npx tsx scripts/ask.ts [--doc=<id>] [--debug] "your question"');
+  }
+
+  const sources = (await retrieve(question, 8, docId)) as unknown as Source[];
+
+  if (debug) {
+    console.log("\n--- CONTEXT SENT TO MODEL ---\n" + buildContext(sources) + "\n-----------------------------");
+  }
+
+  if (sources.length === 0 || Number(sources[0].score) < MIN_SCORE) {
+    const top = sources.length ? Number(sources[0].score).toFixed(3) : "n/a";
+    console.log(`\nI couldn't find that in the uploaded documents. (top score ${top}, below ${MIN_SCORE}; no LLM call made)\n`);
+    await sql.end();
+    return;
+  }
 
   const { text } = await generateText({
     model: groq(process.env.GROQ_MODEL ?? "openai/gpt-oss-120b"),
