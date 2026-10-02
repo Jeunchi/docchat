@@ -2,7 +2,7 @@ import "./_env";
 import { generateText } from "ai";
 import { groq } from "@ai-sdk/groq";
 import { retrieve } from "../src/lib/retrieve";
-import { SYSTEM_PROMPT, buildContext, type Source } from "../src/lib/rag";
+import { SYSTEM_PROMPT, buildContext, normalizeCitations, type Source } from "../src/lib/rag";
 import { sql } from "../src/lib/db";
 
 const MIN_SCORE = 0.1;
@@ -37,7 +37,7 @@ async function main() {
     prompt: `Sources:\n${buildContext(sources)}\n\nQuestion: ${question}`,
   });
 
-  console.log("\n" + text + "\n");
+  console.log("\n" + normalizeCitations(text) + "\n");
   console.log("Sources:");
   sources.forEach((s, i) =>
     console.log(`[${i + 1}] ${s.filename} p.${s.page_number} (score ${Number(s.score).toFixed(3)})`)
