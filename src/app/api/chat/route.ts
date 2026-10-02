@@ -5,6 +5,7 @@ import {
 } from "ai";
 import { groq } from "@ai-sdk/groq";
 import { retrieve } from "@/lib/retrieve";
+import { standaloneQuestion } from "@/lib/condense";
 import { SYSTEM_PROMPT, buildContext, type Source } from "@/lib/rag";
 import type { ChatMessage, SourceInfo } from "@/lib/types";
 
@@ -38,9 +39,15 @@ export async function POST(req: Request) {
     return Response.json({ error: "Invalid document." }, { status: 400 });
   }
 
+  // Resolve "it", "those", "the second one" etc. using the chat history.
+  const searchQuery = await standaloneQuestion(messages);
+  if (process.env.NODE_ENV !== "production") {
+    console.log("[chat] search query:", searchQuery);
+  }
+
   let rows: Source[];
   try {
-    rows = (await retrieve(question, 8, documentId || undefined)) as unknown as Source[];
+    rows = (await retrieve(searchQuery, 8, documentId || undefined)) as unknown as Source[];
   } catch (err) {
     console.error(err);
     return Response.json({ error: "Search failed." }, { status: 500 });
@@ -50,6 +57,7 @@ export async function POST(req: Request) {
     id: r.id,
     filename: r.filename,
     page: r.page_number,
+    pageEnd: r.page_end ?? r.page_number,
     score: Number(r.score),
     content: r.content,
   }));
@@ -58,7 +66,6 @@ export async function POST(req: Request) {
   const stream = createUIMessageStream<ChatMessage>({
     execute: ({ writer }) => {
       if (!relevant) {
-        // Nothing relevant found: answer instantly, no LLM call.
         writer.write({ type: "text-start", id: "not-found" });
         writer.write({ type: "text-delta", id: "not-found", delta: NOT_FOUND });
         writer.write({ type: "text-end", id: "not-found" });
@@ -70,7 +77,7 @@ export async function POST(req: Request) {
       const result = streamText({
         model: groq(process.env.GROQ_MODEL ?? "openai/gpt-oss-120b"),
         system: SYSTEM_PROMPT,
-        prompt: `Sources:\n${buildContext(rows)}\n\nQuestion: ${question}`,
+        prompt: `Sources:\n${buildContext(rows)}\n\nQuestion: ${searchQuery}`,
       });
 
       writer.merge(result.toUIMessageStream());
