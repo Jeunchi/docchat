@@ -23,9 +23,11 @@ export function chunkPages(pages: string[], size = 180, overlap = 30): Chunk[] {
   let index = 0;
 
   for (let start = 0; start < words.length; start += size - overlap) {
+    const end = Math.min(start + size, words.length) - 1;
     chunks.push({
       content: words.slice(start, start + size).join(" "),
       pageNumber: wordPage[start],
+      pageEnd: wordPage[end],
       chunkIndex: index++,
     });
     if (start + size >= words.length) break;

@@ -26,7 +26,10 @@ export function SourcePanel({
         <div>
           <h2 className="font-semibold">{source.filename}</h2>
           <p className="text-sm text-zinc-500">
-            Page {source.page} · relevance {source.score.toFixed(2)}
+                        {source.pageEnd !== source.page
+              ? `Pages ${source.page}–${source.pageEnd}`
+              : `Page ${source.page}`}{" "}
+            · relevance {source.score.toFixed(2)}
           </p>
         </div>
         <button

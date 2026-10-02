@@ -86,7 +86,7 @@ export function Message({
               onClick={() => onCite(sources[n - 1])}
               className="rounded border border-zinc-300 px-2 py-0.5 hover:bg-zinc-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-600 dark:border-zinc-700 dark:hover:bg-zinc-800"
             >
-              {n} · {sources[n - 1].filename} p.{sources[n - 1].page}
+              {n} · {sources[n - 1].filename} {pageLabel(sources[n - 1].page, sources[n - 1].pageEnd)}
             </button>
           ))}
         </div>

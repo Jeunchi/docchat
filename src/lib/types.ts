@@ -6,6 +6,8 @@ export type SourceInfo = {
   page: number;
   score: number;
   content: string;
+  page: r.page_number;
+  pageEnd: r.page_end ?? r.page_number,
 };
 
 // Assistant messages carry a custom "sources" data part next to the text.

@@ -8,7 +8,7 @@ export async function retrieve(question: string, k = 8, documentId?: string) {
 
   return sql`
     select
-      c.id, c.content, c.page_number, d.filename,
+      c.id, c.content, c.page_number, c.page_end, d.filename,
       1 - (c.embedding <=> ${vec}::vector) as score
     from chunks c
     join documents d on d.id = c.document_id

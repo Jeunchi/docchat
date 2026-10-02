@@ -18,7 +18,7 @@ Rules:
 
 export function buildContext(sources: Source[]) {
   return sources
-    .map((s, i) => `[${i + 1}] (${s.filename}, p.${s.page_number})\n${s.content}`)
+    .map((s, i) => `[${i + 1}] (${s.filename}, ${pageLabel(s.page_number, s.page_end)})\n${s.content}`)
     .join("\n\n");
 }
 
