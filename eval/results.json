@@ -1,0 +1,340 @@
+{
+  "model": "openai/gpt-oss-120b",
+  "k": 8,
+  "retrievalOnly": false,
+  "results": [
+    {
+      "q": "How many people responded to the survey?",
+      "unanswerable": false,
+      "hasEvidence": true,
+      "evidenceMissing": false,
+      "rank": 1,
+      "answerOk": true,
+      "answer": "The survey gathered responses from 54 people[1][3]."
+    },
+    {
+      "q": "How many of the respondents were citizens, LGUs, and passersby?",
+      "unanswerable": false,
+      "hasEvidence": true,
+      "evidenceMissing": false,
+      "rank": 1,
+      "answerOk": true,
+      "answer": "The survey included 54 respondents: 32 were citizens, 4 were LGUs, and 18 were passersby [1][8]."
+    },
+    {
+      "q": "What is the name of the tab that only local government units can post to?",
+      "unanswerable": false,
+      "hasEvidence": true,
+      "evidenceMissing": false,
+      "rank": 6,
+      "answerOk": true,
+      "answer": "The tab is called **GovTALKS** (also written as “GOVTalks”)[1]."
+    },
+    {
+      "q": "What are the five stages of the Design Thinking methodology used in the study?",
+      "unanswerable": false,
+      "hasEvidence": true,
+      "evidenceMissing": false,
+      "rank": 2,
+      "answerOk": true,
+      "answer": "The five stages are Empathize, Define, Ideate, Prototype, and Test [2]"
+    },
+    {
+      "q": "What was the total mean score for the statement that GovTALKS helps with misinformation?",
+      "unanswerable": false,
+      "hasEvidence": true,
+      "evidenceMissing": false,
+      "rank": 3,
+      "answerOk": true,
+      "answer": "The total mean score for “GovTALKS helps with misinformation” was **4.48**[3]."
+    },
+    {
+      "q": "What was the biggest concern raised by respondents across all user groups?",
+      "unanswerable": false,
+      "hasEvidence": true,
+      "evidenceMissing": false,
+      "rank": 3,
+      "answerOk": true,
+      "answer": "The biggest concern raised by respondents across all user groups was the risk of false reporting and misinformation within the app. [1][3]"
+    },
+    {
+      "q": "Which Philippine data privacy law should the platform comply with?",
+      "unanswerable": false,
+      "hasEvidence": true,
+      "evidenceMissing": false,
+      "rank": 1,
+      "answerOk": true,
+      "answer": "The platform should comply with the Philippine Data Privacy Act of 2012 (Republic Act No. 10173)[1]."
+    },
+    {
+      "q": "Who is the citizen persona and how old are they?",
+      "unanswerable": false,
+      "hasEvidence": true,
+      "evidenceMissing": false,
+      "rank": 1,
+      "answerOk": true,
+      "answer": "The citizen persona is Maria Dela Cruz, a 22‑year‑old student[1][7]"
+    },
+    {
+      "q": "Which feature uses a heatmap to show hotspots of unresolved issues?",
+      "unanswerable": false,
+      "hasEvidence": true,
+      "evidenceMissing": false,
+      "rank": 2,
+      "answerOk": true,
+      "answer": "The **interactive map view** (also called the Map View) includes a heat‑map display that highlights trends, hotspots and unresolved issues in the community[1][2][3]."
+    },
+    {
+      "q": "What did respondents suggest for non tech-savvy users or people with limited mobile data?",
+      "unanswerable": false,
+      "hasEvidence": true,
+      "evidenceMissing": false,
+      "rank": 1,
+      "answerOk": true,
+      "answer": "Respondents recommended creating a **lite version of the app** that simplifies navigation for non‑tech‑savvy users and reduces bandwidth consumption for those on limited mobile data or low‑spec devices. They also suggested adding a **guest mode** to let casual or passerby users check the app without full registration[1]. Additionally, the lite version should retain core security features while using less data, further broadening accessibility[3]."
+    },
+    {
+      "q": "Why are Facebook groups not enough for reporting problems to the government?",
+      "unanswerable": false,
+      "hasEvidence": true,
+      "evidenceMissing": false,
+      "rank": 5,
+      "answerOk": true,
+      "answer": "Facebook groups are limited for civic reporting because they often restrict participation to verified residents and therefore exclude “outside” observers who may know about a problem [2]. Even when citizens post there, the messages tend to reach fellow community members rather than the appropriate government officials, so reports may never be acknowledged, tracked, or resolved by the LGU [5]."
+    },
+    {
+      "q": "What ways did the authors suggest to stop fake reports?",
+      "unanswerable": false,
+      "hasEvidence": true,
+      "evidenceMissing": false,
+      "rank": 6,
+      "answerOk": true,
+      "answer": "The authors recommended building a **robust verification and moderation system** that includes several anti‑misinformation controls:\n\n* **Multi‑level user verification** – validate identities with government‑issued IDs or barangay certification for residents, while giving limited “guest” access to non‑residents.  \n* **Photo‑authenticity checks** – verify image metadata and run reverse‑image searches to detect recycled or manipulated pictures.  \n* **Community‑based moderation** – a flag‑ging system where multiple user reports trigger a review, supported by trusted moderators appointed by LGUs.  \n* **Report‑validation protocols** – require mandatory geotagged photos with timestamp verification to ensure reports are current and accurately located.  \n* **AI‑powered content filtering** – automatically detect duplicate reports, spam and potentially misleading content before they are published.  \n\nThese measures were proposed as part of the “Enhance Platform Robustness” recommendation to combat misinformation and fake reporting [5][6]."
+    },
+    {
+      "q": "What accuracy did the pre-fermented cacao model achieve?",
+      "unanswerable": false,
+      "hasEvidence": true,
+      "evidenceMissing": false,
+      "rank": 1,
+      "answerOk": true,
+      "answer": "The pre‑fermented cacao model achieved an accuracy of 85.6 % [1][2]"
+    },
+    {
+      "q": "What accuracy did the roasted cacao model achieve?",
+      "unanswerable": false,
+      "hasEvidence": true,
+      "evidenceMissing": false,
+      "rank": 1,
+      "answerOk": true,
+      "answer": "The roasted cacao model achieved an accuracy of **77.78 %**[1]."
+    },
+    {
+      "q": "What learning rate and how many epochs were used to train the model?",
+      "unanswerable": false,
+      "hasEvidence": true,
+      "evidenceMissing": false,
+      "rank": 1,
+      "answerOk": true,
+      "answer": "The model was trained with a learning rate of 2 × 10⁻⁵ and for 30 epochs[1][2]."
+    },
+    {
+      "q": "Which Python library was used to remove image backgrounds?",
+      "unanswerable": false,
+      "hasEvidence": true,
+      "evidenceMissing": false,
+      "rank": 1,
+      "answerOk": true,
+      "answer": "The background was removed using the **rembg** Python library[1]."
+    },
+    {
+      "q": "What were the average separability scores for texture and color features in the pre-fermented dataset?",
+      "unanswerable": false,
+      "hasEvidence": true,
+      "evidenceMissing": false,
+      "rank": 2,
+      "answerOk": true,
+      "answer": "The pre‑fermented dataset showed an average separability score of **0.284 for texture** features and **‑0.113 for color** features[2]."
+    },
+    {
+      "q": "How many good and bad beans did the pre-fermented model correctly classify in expert validation?",
+      "unanswerable": false,
+      "hasEvidence": true,
+      "evidenceMissing": false,
+      "rank": 1,
+      "answerOk": false,
+      "answer": "The pre‑fermented model correctly classified **8 good beans and 7 bad beans** in the expert validation [1]."
+    },
+    {
+      "q": "What are the three cacao species included in the dataset?",
+      "unanswerable": false,
+      "hasEvidence": true,
+      "evidenceMissing": false,
+      "rank": 2,
+      "answerOk": true,
+      "answer": "The dataset contains the three cacao species **Criollo, Forastero, and Trinitario**[2]."
+    },
+    {
+      "q": "Which optimizer and loss function were used for training?",
+      "unanswerable": false,
+      "hasEvidence": true,
+      "evidenceMissing": false,
+      "rank": 1,
+      "answerOk": true,
+      "answer": "The models were trained with the **AdamW optimizer** and a **weighted Cross‑Entropy loss function**[1][3]"
+    },
+    {
+      "q": "Which kind of visual feature separated good from bad beans better, texture or color?",
+      "unanswerable": false,
+      "hasEvidence": true,
+      "evidenceMissing": false,
+      "rank": 1,
+      "answerOk": true,
+      "answer": "Texture‑based visual features provided better separation between good and bad cacao beans than color‑based features[1][4]."
+    },
+    {
+      "q": "Why was the roasted model considered less reliable than the pre-fermented one?",
+      "unanswerable": false,
+      "hasEvidence": true,
+      "evidenceMissing": false,
+      "rank": 1,
+      "answerOk": true,
+      "answer": "The roasted CVT‑13 model was judged less reliable because it showed **lower performance and poorer generalisation** than the pre‑fermented model.  \n- It achieved lower accuracy (77.78 % vs 85.6 %), precision, recall and F1‑score, and its training loss fluctuated more, indicating **moderate over‑fitting caused by higher visual variability in roasted beans**[2].  \n- Although it had a slightly stronger recall for bad beans, its **precision was lower**, reflecting a tendency to misclassify some good beans as bad[4].  \n- In expert validation the roasted model correctly identified only 5 of 10 good beans (versus 8 of 10 for the pre‑fermented model) while detecting the same number of bad beans, leading experts to prefer the **more consistent pre‑fermented model**[3].  \n- Overall, the pre‑fermented model converged more smoothly, generalized better and mis‑classified fewer samples, whereas the roasted model was more affected by variability and over‑fitting[1]."
+    },
+    {
+      "q": "Why did the experts prefer the pre-fermented model for use in the field?",
+      "unanswerable": false,
+      "hasEvidence": true,
+      "evidenceMissing": false,
+      "rank": 1,
+      "answerOk": true,
+      "answer": "The experts chose the pre‑fermented CVT‑13 model because it proved more consistent and reliable than the roasted version—it converged smoothly, achieved higher overall accuracy (≈ 85 %), and generalized better across samples, making it a practical, rapid, objective tool for field quality assessments[1][2]."
+    },
+    {
+      "q": "What types of clothing are not allowed when entering PICC?",
+      "unanswerable": false,
+      "hasEvidence": true,
+      "evidenceMissing": false,
+      "rank": 1,
+      "answerOk": true,
+      "answer": "Shorts, undershirts (sando) and slippers / flip‑flops are prohibited for entry to the PICC[1]."
+    },
+    {
+      "q": "What items are guests and organizers prohibited from bringing in?",
+      "unanswerable": false,
+      "hasEvidence": true,
+      "evidenceMissing": false,
+      "rank": 1,
+      "answerOk": true,
+      "answer": "Guests and organizers may not bring in:\n\n- Drugs and any other contraband  \n- Deadly weapons or objects  \n- Pets and animals  \n- Food and beverages that are not served or prepared by the in‑house food concessionaire  \n- Alcoholic beverages (unless coordinated by the organizer with the in‑house food concessionaire)[1]"
+    },
+    {
+      "q": "When are gifts and leis allowed to be given during graduation?",
+      "unanswerable": false,
+      "hasEvidence": true,
+      "evidenceMissing": false,
+      "rank": 2,
+      "answerOk": true,
+      "answer": "Gifts and leis may be given only after the graduation ceremony has concluded[2]."
+    },
+    {
+      "q": "At what time does the processional march start?",
+      "unanswerable": false,
+      "hasEvidence": true,
+      "evidenceMissing": false,
+      "rank": 1,
+      "answerOk": true,
+      "answer": "The processional march begins at **1:50 PM**[1]."
+    },
+    {
+      "q": "Who places the medals on honor awardees?",
+      "unanswerable": false,
+      "hasEvidence": true,
+      "evidenceMissing": false,
+      "rank": 1,
+      "answerOk": true,
+      "answer": "Parents are the ones who place (award) the medals on the honor awardees[1][2]"
+    },
+    {
+      "q": "Which seating area is for School of IT (SoIT) graduates?",
+      "unanswerable": false,
+      "hasEvidence": true,
+      "evidenceMissing": false,
+      "rank": 2,
+      "answerOk": true,
+      "answer": "School of IT (SoIT) graduates are seated in **Area D**[2]"
+    },
+    {
+      "q": "Can I bring snacks from outside into the venue?",
+      "unanswerable": false,
+      "hasEvidence": true,
+      "evidenceMissing": false,
+      "rank": 1,
+      "answerOk": true,
+      "answer": "No. Guests may only bring food and beverage that is served and prepared by the PIC‑C in‑house food concessionaire (aside from bottled water in reusable bottles); outside snacks are not allowed[1]."
+    },
+    {
+      "q": "How fast must an invoice be generated?",
+      "unanswerable": false,
+      "hasEvidence": true,
+      "evidenceMissing": false,
+      "rank": 4,
+      "answerOk": true,
+      "answer": "The system must generate an invoice within 10 seconds[4]."
+    },
+    {
+      "q": "Which functional requirement covers customizable email templates?",
+      "unanswerable": false,
+      "hasEvidence": true,
+      "evidenceMissing": false,
+      "rank": 1,
+      "answerOk": true,
+      "answer": "Functional Requirement **FR9** – “Support customizable email templates” covers customizable email templates[1]."
+    },
+    {
+      "q": "What happens when an invoice email fails to send?",
+      "unanswerable": false,
+      "hasEvidence": true,
+      "evidenceMissing": false,
+      "rank": 1,
+      "answerOk": true,
+      "answer": "When an invoice email cannot be delivered, the system automatically retries sending it — as required by the reliability goal — and records the attempt in the invoice‑sent log (including timestamp and recipient details) for later review. [1]"
+    },
+    {
+      "q": "How many people have downloaded the tamBAYAN app?",
+      "unanswerable": true,
+      "hasEvidence": false,
+      "evidenceMissing": false,
+      "rank": null,
+      "answerOk": true,
+      "answer": "I couldn't find that in the uploaded documents."
+    },
+    {
+      "q": "What is the price per kilogram of cacao beans?",
+      "unanswerable": true,
+      "hasEvidence": false,
+      "evidenceMissing": false,
+      "rank": null,
+      "answerOk": true,
+      "answer": "I couldn't find that in the uploaded documents."
+    },
+    {
+      "q": "Who is the keynote speaker at the commencement exercises?",
+      "unanswerable": true,
+      "hasEvidence": false,
+      "evidenceMissing": false,
+      "rank": null,
+      "answerOk": true,
+      "answer": "I couldn't find that in the uploaded documents."
+    },
+    {
+      "q": "What is the capital of France?",
+      "unanswerable": true,
+      "hasEvidence": false,
+      "evidenceMissing": false,
+      "rank": null,
+      "answerOk": true,
+      "answer": "I couldn't find that in the uploaded documents."
+    }
+  ]
+}

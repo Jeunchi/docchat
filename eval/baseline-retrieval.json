@@ -1,0 +1,340 @@
+{
+  "model": "openai/gpt-oss-120b",
+  "k": 8,
+  "retrievalOnly": true,
+  "results": [
+    {
+      "q": "How many people responded to the survey?",
+      "unanswerable": false,
+      "hasEvidence": true,
+      "evidenceMissing": false,
+      "rank": 2,
+      "answerOk": null,
+      "answer": ""
+    },
+    {
+      "q": "How many of the respondents were citizens, LGUs, and passersby?",
+      "unanswerable": false,
+      "hasEvidence": true,
+      "evidenceMissing": false,
+      "rank": 1,
+      "answerOk": null,
+      "answer": ""
+    },
+    {
+      "q": "What is the name of the tab that only local government units can post to?",
+      "unanswerable": false,
+      "hasEvidence": true,
+      "evidenceMissing": false,
+      "rank": 2,
+      "answerOk": null,
+      "answer": ""
+    },
+    {
+      "q": "What are the five stages of the Design Thinking methodology used in the study?",
+      "unanswerable": false,
+      "hasEvidence": true,
+      "evidenceMissing": false,
+      "rank": 1,
+      "answerOk": null,
+      "answer": ""
+    },
+    {
+      "q": "What was the total mean score for the statement that GovTALKS helps with misinformation?",
+      "unanswerable": false,
+      "hasEvidence": true,
+      "evidenceMissing": false,
+      "rank": 5,
+      "answerOk": null,
+      "answer": ""
+    },
+    {
+      "q": "What was the biggest concern raised by respondents across all user groups?",
+      "unanswerable": false,
+      "hasEvidence": true,
+      "evidenceMissing": false,
+      "rank": null,
+      "answerOk": null,
+      "answer": ""
+    },
+    {
+      "q": "Which Philippine data privacy law should the platform comply with?",
+      "unanswerable": false,
+      "hasEvidence": true,
+      "evidenceMissing": false,
+      "rank": 1,
+      "answerOk": null,
+      "answer": ""
+    },
+    {
+      "q": "Who is the citizen persona and how old are they?",
+      "unanswerable": false,
+      "hasEvidence": true,
+      "evidenceMissing": false,
+      "rank": 1,
+      "answerOk": null,
+      "answer": ""
+    },
+    {
+      "q": "Which feature uses a heatmap to show hotspots of unresolved issues?",
+      "unanswerable": false,
+      "hasEvidence": true,
+      "evidenceMissing": false,
+      "rank": 5,
+      "answerOk": null,
+      "answer": ""
+    },
+    {
+      "q": "What did respondents suggest for non tech-savvy users or people with limited mobile data?",
+      "unanswerable": false,
+      "hasEvidence": true,
+      "evidenceMissing": false,
+      "rank": 3,
+      "answerOk": null,
+      "answer": ""
+    },
+    {
+      "q": "Why are Facebook groups not enough for reporting problems to the government?",
+      "unanswerable": false,
+      "hasEvidence": true,
+      "evidenceMissing": false,
+      "rank": 6,
+      "answerOk": null,
+      "answer": ""
+    },
+    {
+      "q": "What ways did the authors suggest to stop fake reports?",
+      "unanswerable": false,
+      "hasEvidence": true,
+      "evidenceMissing": false,
+      "rank": 6,
+      "answerOk": null,
+      "answer": ""
+    },
+    {
+      "q": "What accuracy did the pre-fermented cacao model achieve?",
+      "unanswerable": false,
+      "hasEvidence": true,
+      "evidenceMissing": false,
+      "rank": 1,
+      "answerOk": null,
+      "answer": ""
+    },
+    {
+      "q": "What accuracy did the roasted cacao model achieve?",
+      "unanswerable": false,
+      "hasEvidence": true,
+      "evidenceMissing": false,
+      "rank": 1,
+      "answerOk": null,
+      "answer": ""
+    },
+    {
+      "q": "What learning rate and how many epochs were used to train the model?",
+      "unanswerable": false,
+      "hasEvidence": true,
+      "evidenceMissing": false,
+      "rank": 1,
+      "answerOk": null,
+      "answer": ""
+    },
+    {
+      "q": "Which Python library was used to remove image backgrounds?",
+      "unanswerable": false,
+      "hasEvidence": true,
+      "evidenceMissing": false,
+      "rank": 1,
+      "answerOk": null,
+      "answer": ""
+    },
+    {
+      "q": "What were the average separability scores for texture and color features in the pre-fermented dataset?",
+      "unanswerable": false,
+      "hasEvidence": true,
+      "evidenceMissing": false,
+      "rank": 2,
+      "answerOk": null,
+      "answer": ""
+    },
+    {
+      "q": "How many good and bad beans did the pre-fermented model correctly classify in expert validation?",
+      "unanswerable": false,
+      "hasEvidence": true,
+      "evidenceMissing": false,
+      "rank": 1,
+      "answerOk": null,
+      "answer": ""
+    },
+    {
+      "q": "What are the three cacao species included in the dataset?",
+      "unanswerable": false,
+      "hasEvidence": true,
+      "evidenceMissing": false,
+      "rank": 3,
+      "answerOk": null,
+      "answer": ""
+    },
+    {
+      "q": "Which optimizer and loss function were used for training?",
+      "unanswerable": false,
+      "hasEvidence": true,
+      "evidenceMissing": false,
+      "rank": 1,
+      "answerOk": null,
+      "answer": ""
+    },
+    {
+      "q": "Which kind of visual feature separated good from bad beans better, texture or color?",
+      "unanswerable": false,
+      "hasEvidence": true,
+      "evidenceMissing": false,
+      "rank": 1,
+      "answerOk": null,
+      "answer": ""
+    },
+    {
+      "q": "Why was the roasted model considered less reliable than the pre-fermented one?",
+      "unanswerable": false,
+      "hasEvidence": true,
+      "evidenceMissing": false,
+      "rank": 1,
+      "answerOk": null,
+      "answer": ""
+    },
+    {
+      "q": "Why did the experts prefer the pre-fermented model for use in the field?",
+      "unanswerable": false,
+      "hasEvidence": true,
+      "evidenceMissing": false,
+      "rank": 1,
+      "answerOk": null,
+      "answer": ""
+    },
+    {
+      "q": "What types of clothing are not allowed when entering PICC?",
+      "unanswerable": false,
+      "hasEvidence": true,
+      "evidenceMissing": false,
+      "rank": 1,
+      "answerOk": null,
+      "answer": ""
+    },
+    {
+      "q": "What items are guests and organizers prohibited from bringing in?",
+      "unanswerable": false,
+      "hasEvidence": true,
+      "evidenceMissing": false,
+      "rank": 2,
+      "answerOk": null,
+      "answer": ""
+    },
+    {
+      "q": "When are gifts and leis allowed to be given during graduation?",
+      "unanswerable": false,
+      "hasEvidence": true,
+      "evidenceMissing": false,
+      "rank": 2,
+      "answerOk": null,
+      "answer": ""
+    },
+    {
+      "q": "At what time does the processional march start?",
+      "unanswerable": false,
+      "hasEvidence": true,
+      "evidenceMissing": false,
+      "rank": 1,
+      "answerOk": null,
+      "answer": ""
+    },
+    {
+      "q": "Who places the medals on honor awardees?",
+      "unanswerable": false,
+      "hasEvidence": true,
+      "evidenceMissing": false,
+      "rank": 1,
+      "answerOk": null,
+      "answer": ""
+    },
+    {
+      "q": "Which seating area is for School of IT (SoIT) graduates?",
+      "unanswerable": false,
+      "hasEvidence": true,
+      "evidenceMissing": false,
+      "rank": 2,
+      "answerOk": null,
+      "answer": ""
+    },
+    {
+      "q": "Can I bring snacks from outside into the venue?",
+      "unanswerable": false,
+      "hasEvidence": true,
+      "evidenceMissing": false,
+      "rank": 1,
+      "answerOk": null,
+      "answer": ""
+    },
+    {
+      "q": "How fast must an invoice be generated?",
+      "unanswerable": false,
+      "hasEvidence": true,
+      "evidenceMissing": false,
+      "rank": 4,
+      "answerOk": null,
+      "answer": ""
+    },
+    {
+      "q": "Which functional requirement covers customizable email templates?",
+      "unanswerable": false,
+      "hasEvidence": true,
+      "evidenceMissing": false,
+      "rank": 2,
+      "answerOk": null,
+      "answer": ""
+    },
+    {
+      "q": "What happens when an invoice email fails to send?",
+      "unanswerable": false,
+      "hasEvidence": true,
+      "evidenceMissing": false,
+      "rank": 1,
+      "answerOk": null,
+      "answer": ""
+    },
+    {
+      "q": "How many people have downloaded the tamBAYAN app?",
+      "unanswerable": true,
+      "hasEvidence": false,
+      "evidenceMissing": false,
+      "rank": null,
+      "answerOk": null,
+      "answer": ""
+    },
+    {
+      "q": "What is the price per kilogram of cacao beans?",
+      "unanswerable": true,
+      "hasEvidence": false,
+      "evidenceMissing": false,
+      "rank": null,
+      "answerOk": null,
+      "answer": ""
+    },
+    {
+      "q": "Who is the keynote speaker at the commencement exercises?",
+      "unanswerable": true,
+      "hasEvidence": false,
+      "evidenceMissing": false,
+      "rank": null,
+      "answerOk": null,
+      "answer": ""
+    },
+    {
+      "q": "What is the capital of France?",
+      "unanswerable": true,
+      "hasEvidence": false,
+      "evidenceMissing": false,
+      "rank": null,
+      "answerOk": null,
+      "answer": ""
+    }
+  ]
+}

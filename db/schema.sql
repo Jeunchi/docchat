@@ -18,3 +18,5 @@ create table chunks (
 );
 
 create index on chunks using hnsw (embedding vector_cosine_ops);
+alter table chunks add column if not exists fts tsvector generated always as (to_tsvector('english', content)) stored;
+create index if not exists chunks_fts_idx on chunks using gin (fts);
