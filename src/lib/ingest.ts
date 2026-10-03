@@ -3,9 +3,9 @@ import { sql } from "./db";
 import { embed } from "./embed";
 import { chunkPages } from "./chunk";
 
-export async function ingestPdf(data: Uint8Array, filename: string) {
+export async function ingestPdf(userId: string, data: Uint8Array, filename: string) {
   const [doc] = await sql`
-    insert into documents (filename) values (${filename}) returning id
+    insert into documents (filename, user_id) values (${filename}, ${userId}) returning id
   `;
 
   try {

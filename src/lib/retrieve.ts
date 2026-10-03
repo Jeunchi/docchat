@@ -9,9 +9,14 @@ function keywordQuery(question: string) {
   return unique.filter((t) => t !== "or" && t !== "and").join(" or ");
 }
 
-// Hybrid search: vector similarity + full-text search, merged with
-// reciprocal rank fusion (score = 1/(60+rank) from each list, summed).
-export async function retrieve(question: string, k = 8, documentId?: string) {
+// Hybrid search over ONE user's documents: vector similarity + full-text search,
+// merged with reciprocal rank fusion (score = 1/(60+rank) from each list, summed).
+export async function retrieve(
+  userId: string,
+  question: string,
+  k = 8,
+  documentId?: string
+) {
   const [qv] = await embed([question]);
   const vec = JSON.stringify(qv);
   const words = keywordQuery(question);
@@ -23,7 +28,7 @@ export async function retrieve(question: string, k = 8, documentId?: string) {
              row_number() over (order by c.embedding <=> ${vec}::vector) as r
       from chunks c
       join documents d on d.id = c.document_id
-      where d.status = 'ready' ${filter}
+      where d.status = 'ready' and d.user_id = ${userId} ${filter}
       order by c.embedding <=> ${vec}::vector
       limit 30
     ),
@@ -33,7 +38,7 @@ export async function retrieve(question: string, k = 8, documentId?: string) {
       from chunks c
       join documents d on d.id = c.document_id
       cross join (select websearch_to_tsquery('english', ${words}) as tsq) q
-      where d.status = 'ready' ${filter} and c.fts @@ q.tsq
+      where d.status = 'ready' and d.user_id = ${userId} ${filter} and c.fts @@ q.tsq
       order by ts_rank_cd(c.fts, q.tsq) desc
       limit 30
     )
@@ -44,7 +49,7 @@ export async function retrieve(question: string, k = 8, documentId?: string) {
     join documents d on d.id = c.document_id
     left join vec_hits vh on vh.id = c.id
     left join kw_hits kh on kh.id = c.id
-    where vh.id is not null or kh.id is not null
+    where d.user_id = ${userId} and (vh.id is not null or kh.id is not null)
     order by coalesce(1.0 / (60 + vh.r), 0) + coalesce(1.0 / (60 + kh.r), 0) desc
     limit ${k}
   `;

@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { ingestPdf } from "@/lib/ingest";
+import { getUserId } from "@/lib/session";
 import { sql } from "@/lib/db";
 
 export const runtime = "nodejs";
@@ -13,6 +14,11 @@ function looksLikePdf(b: Uint8Array) {
 }
 
 export async function POST(req: Request) {
+  const userId = await getUserId();
+  if (!userId) {
+    return NextResponse.json({ error: "Please sign in." }, { status: 401 });
+  }
+
   const form = await req.formData();
   const file = form.get("file");
 
@@ -29,7 +35,7 @@ export async function POST(req: Request) {
   }
 
   try {
-    const result = await ingestPdf(bytes, file.name.slice(0, 200));
+    const result = await ingestPdf(userId, bytes, file.name.slice(0, 200));
     return NextResponse.json(result, { status: 201 });
   } catch (err) {
     console.error(err);
@@ -39,8 +45,16 @@ export async function POST(req: Request) {
 }
 
 export async function GET() {
+  const userId = await getUserId();
+  if (!userId) {
+    return NextResponse.json({ error: "Please sign in." }, { status: 401 });
+  }
+
   const docs = await sql`
-    select id, filename, status, created_at from documents order by created_at desc
+    select id, filename, status, created_at
+    from documents
+    where user_id = ${userId}
+    order by created_at desc
   `;
   return NextResponse.json(docs);
 }

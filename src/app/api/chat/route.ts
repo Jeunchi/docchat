@@ -6,6 +6,7 @@ import {
 import { groq } from "@ai-sdk/groq";
 import { retrieve } from "@/lib/retrieve";
 import { standaloneQuestion } from "@/lib/condense";
+import { getUserId } from "@/lib/session";
 import { SYSTEM_PROMPT, buildContext, type Source } from "@/lib/rag";
 import type { ChatMessage, SourceInfo } from "@/lib/types";
 
@@ -17,6 +18,12 @@ const NOT_FOUND = "I couldn't find that in the uploaded documents.";
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 export async function POST(req: Request) {
+  // Check sign-in before any search or LLM call, so strangers can't spend your quota.
+  const userId = await getUserId();
+  if (!userId) {
+    return Response.json({ error: "Please sign in." }, { status: 401 });
+  }
+
   const { messages, documentId } = (await req.json()) as {
     messages: ChatMessage[];
     documentId?: string;
@@ -47,12 +54,13 @@ export async function POST(req: Request) {
 
   let rows: Source[];
   try {
-    rows = (await retrieve(searchQuery, 8, documentId || undefined)) as unknown as Source[];
+    rows = (await retrieve(userId, searchQuery, 8, documentId || undefined)) as unknown as Source[];
   } catch (err) {
     console.error(err);
     return Response.json({ error: "Search failed." }, { status: 500 });
   }
-    if (process.env.NODE_ENV !== "production") {
+
+  if (process.env.NODE_ENV !== "production") {
     console.log("[chat] top score:", rows[0] ? Number(rows[0].score).toFixed(3) : "none");
   }
 

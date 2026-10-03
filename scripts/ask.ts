@@ -3,9 +3,10 @@ import { generateText } from "ai";
 import { groq } from "@ai-sdk/groq";
 import { retrieve } from "../src/lib/retrieve";
 import { SYSTEM_PROMPT, buildContext, normalizeCitations, type Source } from "../src/lib/rag";
+import { scriptUserId } from "./_user";
 import { sql } from "../src/lib/db";
 
-const MIN_SCORE = 0.1;
+const MIN_SCORE = -1;
 
 async function main() {
   const args = process.argv.slice(2);
@@ -18,15 +19,15 @@ async function main() {
     throw new Error('Usage: npx tsx scripts/ask.ts [--doc=<id>] [--debug] "your question"');
   }
 
-  const sources = (await retrieve(question, 8, docId)) as unknown as Source[];
+  const userId = await scriptUserId();
+  const sources = (await retrieve(userId, question, 8, docId)) as unknown as Source[];
 
   if (debug) {
     console.log("\n--- CONTEXT SENT TO MODEL ---\n" + buildContext(sources) + "\n-----------------------------");
   }
 
   if (sources.length === 0 || Number(sources[0].score) < MIN_SCORE) {
-    const top = sources.length ? Number(sources[0].score).toFixed(3) : "n/a";
-    console.log(`\nI couldn't find that in the uploaded documents. (top score ${top}, below ${MIN_SCORE}; no LLM call made)\n`);
+    console.log("\nI couldn't find that in the uploaded documents. (no LLM call made)\n");
     await sql.end();
     return;
   }

@@ -3,7 +3,7 @@ import { readFileSync, writeFileSync } from "fs";
 import { generateText } from "ai";
 import { groq } from "@ai-sdk/groq";
 import { sql } from "../src/lib/db";
-import { retrieve } from "../src/lib/retrieve";
+import { scriptUserId } from "./_user";
 import {
   SYSTEM_PROMPT,
   buildContext,
@@ -50,12 +50,12 @@ const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 type DocInfo = { id: string; filename: string; text: string };
 const docCache = new Map<string, DocInfo | null>();
 
-async function findDoc(key: string): Promise<DocInfo | null> {
+async function findDoc(userId: string, key: string): Promise<DocInfo | null> {
   if (docCache.has(key)) return docCache.get(key) ?? null;
 
   const [row] = await sql`
     select id, filename from documents
-    where filename ilike ${"%" + key + "%"} and status = 'ready'
+    where filename ilike ${"%" + key + "%"} and status = 'ready' and user_id = ${userId}
     order by created_at desc limit 1
   `;
 
@@ -92,7 +92,7 @@ async function generate(question: string, sources: Source[]) {
 const pct = (n: number, d: number) => (d ? `${((100 * n) / d).toFixed(1)}%` : "n/a");
 
 async function main() {
-  const cases: Case[] = JSON.parse(readFileSync("eval/questions.json", "utf8"));
+  const userId = await scriptUserId();
   const results: Result[] = [];
   let skipped = 0;
 
@@ -103,7 +103,7 @@ async function main() {
     let docId: string | undefined;
     let docText: string | undefined;
     if (c.doc) {
-      const d = await findDoc(c.doc);
+      const d = await findDoc(userId, c.doc);
       if (!d) {
         console.log(`${n}. SKIP (no ready document matching "${c.doc}"): ${c.q}`);
         skipped++;
@@ -113,7 +113,7 @@ async function main() {
       docText = d.text;
     }
 
-    const sources = (await retrieve(c.q, K, docId)) as unknown as Source[];
+    const sources = (await retrieve(userId, c.q, K, docId)) as unknown as Source[];
     const retrieved = sources.map((s) => norm(s.content));
 
     let rank: number | null = null;
