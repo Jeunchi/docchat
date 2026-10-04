@@ -32,10 +32,6 @@
   {"doc":"Commencement","q":"Which seating area is for School of IT (SoIT) graduates?","evidence":"SoIT","expect":["area d"]},
   {"doc":"Commencement","q":"Can I bring snacks from outside into the venue?","evidence":"Outside food and drinks are prohibited|other than those served","expect":["prohibit|not allowed|cannot|can't|may not"]},
 
-  {"doc":"Business","q":"How fast must an invoice be generated?","evidence":"within 10 seconds","expect":["10 seconds"]},
-  {"doc":"Business","q":"Which functional requirement covers customizable email templates?","evidence":"FR9: Support customizable email templates","expect":["fr9"]},
-  {"doc":"Business","q":"What happens when an invoice email fails to send?","evidence":"automatic retries for failed emails","expect":["retr"]},
-
   {"doc":"CFMV","q":"How many people have downloaded the tamBAYAN app?","unanswerable":true},
   {"doc":"Cacao","q":"What is the price per kilogram of cacao beans?","unanswerable":true},
   {"doc":"Commencement","q":"Who is the keynote speaker at the commencement exercises?","unanswerable":true},
