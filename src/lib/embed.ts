@@ -1,15 +1,14 @@
-import { pipeline, env } from "@huggingface/transformers";
-
-// Serverless filesystems are read-only except /tmp, so cache the model there.
-if (process.env.VERCEL) {
-  env.cacheDir = "/tmp/transformers-cache";
-}
-
+// Loaded lazily: routes that never embed text never touch the native runtime.
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 let extractor: any = null;
 
 async function getExtractor() {
   if (!extractor) {
+    const { pipeline, env } = await import("@huggingface/transformers");
+    // Serverless filesystems are read-only except /tmp, so cache the model there.
+    if (process.env.VERCEL) {
+      env.cacheDir = "/tmp/transformers-cache";
+    }
     extractor = await pipeline("feature-extraction", "Xenova/all-MiniLM-L6-v2");
   }
   return extractor;
