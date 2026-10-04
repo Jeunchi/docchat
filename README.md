@@ -6,12 +6,11 @@
 
 > This is a portfolio project that runs entirely on free tiers. Create an account to try it, and please don't upload confidential documents. Usage limits apply, and the free language-model tier can occasionally rate-limit requests.
 
-<<<<<<< HEAD
+
 ![DocChat answering a question with inline citations](docs/screenshot-chat.png)
 
 ![The source panel showing the cited passage and its pages](docs/screenshot-sources.png)
-=======
->>>>>>> cbfd3c7a349253e3de8afd4bccd2f18ccc5b1d0f
+
 
 ## Features
 
