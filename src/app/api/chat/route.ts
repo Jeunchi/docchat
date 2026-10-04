@@ -7,6 +7,7 @@ import { groq } from "@ai-sdk/groq";
 import { retrieve } from "@/lib/retrieve";
 import { standaloneQuestion } from "@/lib/condense";
 import { getUserId } from "@/lib/session";
+import { checkAndRecord } from "@/lib/limits";
 import { SYSTEM_PROMPT, buildContext, type Source } from "@/lib/rag";
 import type { ChatMessage, SourceInfo } from "@/lib/types";
 
@@ -45,7 +46,10 @@ export async function POST(req: Request) {
   if (documentId && !UUID.test(documentId)) {
     return Response.json({ error: "Invalid document." }, { status: 400 });
   }
-
+  const limit = await checkAndRecord(userId, "chat");
+  if (!limit.ok) {
+    return Response.json({ error: limit.message }, { status: 429 });
+  }  
   // Resolve "it", "those", "the second one" etc. using the chat history.
   const searchQuery = await standaloneQuestion(messages);
   if (process.env.NODE_ENV !== "production") {

@@ -3,6 +3,7 @@ import { readFileSync, writeFileSync } from "fs";
 import { generateText } from "ai";
 import { groq } from "@ai-sdk/groq";
 import { sql } from "../src/lib/db";
+import { retrieve } from "../src/lib/retrieve";
 import { scriptUserId } from "./_user";
 import {
   SYSTEM_PROMPT,
@@ -93,6 +94,7 @@ const pct = (n: number, d: number) => (d ? `${((100 * n) / d).toFixed(1)}%` : "n
 
 async function main() {
   const userId = await scriptUserId();
+  const cases: Case[] = JSON.parse(readFileSync("eval/questions.json", "utf8"));
   const results: Result[] = [];
   let skipped = 0;
 

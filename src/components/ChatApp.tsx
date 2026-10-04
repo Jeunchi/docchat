@@ -13,6 +13,16 @@ type Doc = { id: string; filename: string; status: string };
 
 const transport = new DefaultChatTransport({ api: "/api/chat" });
 
+function friendlyError(err: Error) {
+  try {
+    const parsed = JSON.parse(err.message);
+    if (typeof parsed?.error === "string") return parsed.error;
+  } catch {
+    // not JSON, fall through
+  }
+  return "Something went wrong. Please try again.";
+}
+
 export function ChatApp({ user }: { user: { name: string; email: string } }) {
   const [docs, setDocs] = useState<Doc[]>([]);
   const [documentId, setDocumentId] = useState("");
@@ -173,7 +183,7 @@ export function ChatApp({ user }: { user: { name: string; email: string } }) {
           )}
           {error && (
             <p role="alert" className="text-sm text-red-600">
-              Something went wrong. Please try again.
+                {friendlyError(error)}
             </p>
           )}
           <div ref={bottomRef} />

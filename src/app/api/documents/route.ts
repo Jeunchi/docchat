@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { ingestPdf } from "@/lib/ingest";
+import { checkAndRecord, MAX_DOCS_PER_USER } from "@/lib/limits";
 import { getUserId } from "@/lib/session";
 import { sql } from "@/lib/db";
 
@@ -32,6 +33,21 @@ export async function POST(req: Request) {
   const bytes = new Uint8Array(await file.arrayBuffer());
   if (!looksLikePdf(bytes)) {
     return NextResponse.json({ error: "That doesn't look like a valid PDF." }, { status: 400 });
+  }
+
+  const [{ n }] = await sql`
+    select count(*)::int as n from documents where user_id = ${userId}
+  `;
+  if (n >= MAX_DOCS_PER_USER) {
+    return NextResponse.json(
+      { error: `You've reached the limit of ${MAX_DOCS_PER_USER} documents. Delete one to upload another.` },
+      { status: 403 }
+    );
+  }
+
+  const limit = await checkAndRecord(userId, "upload");
+  if (!limit.ok) {
+    return NextResponse.json({ error: limit.message }, { status: 429 });
   }
 
   try {
