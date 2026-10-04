@@ -15,62 +15,72 @@ function looksLikePdf(b: Uint8Array) {
 }
 
 export async function POST(req: Request) {
-  const userId = await getUserId();
-  if (!userId) {
-    return NextResponse.json({ error: "Please sign in." }, { status: 401 });
-  }
-
-  const form = await req.formData();
-  const file = form.get("file");
-
-  if (!(file instanceof File)) {
-    return NextResponse.json({ error: "Upload a PDF file." }, { status: 400 });
-  }
-  if (file.size > MAX_BYTES) {
-    return NextResponse.json({ error: "File too large (4 MB max)." }, { status: 413 });
-  }
-
-  const bytes = new Uint8Array(await file.arrayBuffer());
-  if (!looksLikePdf(bytes)) {
-    return NextResponse.json({ error: "That doesn't look like a valid PDF." }, { status: 400 });
-  }
-
-  const [{ n }] = await sql`
-    select count(*)::int as n from documents where user_id = ${userId}
-  `;
-  if (n >= MAX_DOCS_PER_USER) {
-    return NextResponse.json(
-      { error: `You've reached the limit of ${MAX_DOCS_PER_USER} documents. Delete one to upload another.` },
-      { status: 403 }
-    );
-  }
-
-  const limit = await checkAndRecord(userId, "upload");
-  if (!limit.ok) {
-    return NextResponse.json({ error: limit.message }, { status: 429 });
-  }
-
   try {
-    const result = await ingestPdf(userId, bytes, file.name.slice(0, 200));
-    return NextResponse.json(result, { status: 201 });
+    const userId = await getUserId();
+    if (!userId) {
+      return NextResponse.json({ error: "Please sign in." }, { status: 401 });
+    }
+
+    const form = await req.formData();
+    const file = form.get("file");
+
+    if (!(file instanceof File)) {
+      return NextResponse.json({ error: "Upload a PDF file." }, { status: 400 });
+    }
+    if (file.size > MAX_BYTES) {
+      return NextResponse.json({ error: "File too large (4 MB max)." }, { status: 413 });
+    }
+
+    const bytes = new Uint8Array(await file.arrayBuffer());
+    if (!looksLikePdf(bytes)) {
+      return NextResponse.json({ error: "That doesn't look like a valid PDF." }, { status: 400 });
+    }
+
+    const [{ n }] = await sql`
+      select count(*)::int as n from documents where user_id = ${userId}
+    `;
+    if (n >= MAX_DOCS_PER_USER) {
+      return NextResponse.json(
+        { error: `You've reached the limit of ${MAX_DOCS_PER_USER} documents. Delete one to upload another.` },
+        { status: 403 }
+      );
+    }
+
+    const limit = await checkAndRecord(userId, "upload");
+    if (!limit.ok) {
+      return NextResponse.json({ error: limit.message }, { status: 429 });
+    }
+
+    try {
+      const result = await ingestPdf(userId, bytes, file.name.slice(0, 200));
+      return NextResponse.json(result, { status: 201 });
+    } catch (err) {
+      console.error("[documents POST] ingest failed:", err);
+      const message = err instanceof Error ? err.message : "Ingestion failed";
+      return NextResponse.json({ error: message }, { status: 500 });
+    }
   } catch (err) {
-    console.error(err);
-    const message = err instanceof Error ? err.message : "Ingestion failed";
-    return NextResponse.json({ error: message }, { status: 500 });
+    console.error("[documents POST] failed:", err);
+    return NextResponse.json({ error: "Server error. Please try again." }, { status: 500 });
   }
 }
 
 export async function GET() {
-  const userId = await getUserId();
-  if (!userId) {
-    return NextResponse.json({ error: "Please sign in." }, { status: 401 });
-  }
+  try {
+    const userId = await getUserId();
+    if (!userId) {
+      return NextResponse.json({ error: "Please sign in." }, { status: 401 });
+    }
 
-  const docs = await sql`
-    select id, filename, status, created_at
-    from documents
-    where user_id = ${userId}
-    order by created_at desc
-  `;
-  return NextResponse.json(docs);
+    const docs = await sql`
+      select id, filename, status, created_at
+      from documents
+      where user_id = ${userId}
+      order by created_at desc
+    `;
+    return NextResponse.json(docs);
+  } catch (err) {
+    console.error("[documents GET] failed:", err);
+    return NextResponse.json({ error: "Server error. Please try again." }, { status: 500 });
+  }
 }
