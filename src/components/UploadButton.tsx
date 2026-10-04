@@ -8,7 +8,7 @@ type State =
   | { kind: "done"; message: string }
   | { kind: "error"; message: string };
 
-const MAX_BYTES = 10 * 1024 * 1024;
+const MAX_BYTES = 4 * 1024 * 1024; // Vercel's request body limit is 4.5 MB
 
 export function UploadButton({
   onUploaded,
@@ -25,7 +25,7 @@ export function UploadButton({
       return;
     }
     if (file.size > MAX_BYTES) {
-      setState({ kind: "error", message: "That file is larger than 10 MB." });
+      setState({ kind: "error", message: "That file is larger than 4 MB." });
       return;
     }
 

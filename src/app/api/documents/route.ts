@@ -7,7 +7,7 @@ import { sql } from "@/lib/db";
 export const runtime = "nodejs";
 export const maxDuration = 60;
 
-const MAX_BYTES = 10 * 1024 * 1024; // 10 MB
+const MAX_BYTES = 4 * 1024 * 1024; // 4 MB (Vercel's request body limit is 4.5 MB)
 
 // Real PDFs start with the bytes "%PDF".
 function looksLikePdf(b: Uint8Array) {
@@ -27,7 +27,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Upload a PDF file." }, { status: 400 });
   }
   if (file.size > MAX_BYTES) {
-    return NextResponse.json({ error: "File too large (10 MB max)." }, { status: 413 });
+    return NextResponse.json({ error: "File too large (4 MB max)." }, { status: 413 });
   }
 
   const bytes = new Uint8Array(await file.arrayBuffer());

@@ -1,4 +1,9 @@
-import { pipeline } from "@huggingface/transformers";
+import { pipeline, env } from "@huggingface/transformers";
+
+// Serverless filesystems are read-only except /tmp, so cache the model there.
+if (process.env.VERCEL) {
+  env.cacheDir = "/tmp/transformers-cache";
+}
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 let extractor: any = null;
